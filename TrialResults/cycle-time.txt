@@ -1,0 +1,81 @@
+
+Trial No.1
+Total cycle time = 18.907779
+
+Trial No.2
+Total cycle time = 16.902917
+
+Trial No.3
+Total cycle time = 16.983097
+
+Trial No.4
+Total cycle time = 17.004699
+
+Trial No.5
+Total cycle time = 17.052921
+
+Trial No.6
+Total cycle time = 16.949279
+
+Trial No.7
+Total cycle time = 16.806365
+Object lost time within cycle: 6.66 seconds
+
+Trial No.8
+Total cycle time = 17.148511
+
+Trial No.9
+Total cycle time = 17.107538
+
+Trial No.10
+Total cycle time = 16.764158
+
+Trial No.11
+Total cycle time = 16.875992
+
+Trial No.12
+Total cycle time = 18.744526
+
+Trial No.13
+Total cycle time = 16.921513
+
+Trial No.14
+Total cycle time = 16.883478
+Object lost time within cycle: 8.82 seconds
+
+Trial No.15
+Total cycle time = 16.980368
+
+Trial No.16
+Total cycle time = 17.197339
+
+Trial No.17
+Total cycle time = 17.008939
+
+Trial No.18
+Total cycle time = 16.967934
+
+Trial No.19
+Total cycle time = 17.390198
+
+Trial No.20
+Total cycle time = 16.890202
+
+Trial No.21
+Total cycle time = 17.024022
+Object lost time within cycle: 6.95 seconds
+
+Trial No.22
+Total cycle time = 16.898250
+Object lost time within cycle: 6.78 seconds
+
+Trial No.23
+Total cycle time = 16.888645
+Object lost time within cycle: 6.83 seconds
+
+Trial No.24
+Total cycle time = 16.836268
+Object lost time within cycle: 7.66 seconds
+
+Trial No.25
+Total cycle time = 16.702621

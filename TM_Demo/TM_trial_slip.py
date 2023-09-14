@@ -2,6 +2,8 @@ import time
 import asyncio
 import csv
 
+from pathlib import Path
+
 from multiprocessing.connection import wait
 import os, sys
 
@@ -12,6 +14,15 @@ sys.path.append(parentdir)
 
 from SensorUtils.xelamiddleware import *
 from RobotControl import techmanpy
+
+#Path for output directory
+sensor_reading_path = 'SensorReadings'
+if not os.path.isdir(sensor_reading_path):
+    os.makedirs(sensor_reading_path)
+
+trial_results_path = 'TrialResults'
+if not os.path.isdir(trial_results_path):
+    os.makedirs(trial_results_path)
 
 from turtle import position, width
 import numpy as np
@@ -123,8 +134,11 @@ def slip_detection_thread(name):
     y_baseline = float(uSkin_data[2][1])
 
     while force_sensing_flag:
-        sensor_reading = open("sensor-reading" + "-" + str(trial_counter) + ".txt", "a")
-        sensor_reading.write('{}\n'.format(uSkin_data))
+        
+        sensor_reading_filename = "sensor-reading" + "-" + str(trial_counter) + ".txt"
+        with open(os.path.join(sensor_reading_path, sensor_reading_filename), "a") as sensor_reading:
+            sensor_reading.write('{}\n'.format(uSkin_data))
+
         #print(uSkin_data) #use time.sleep instead if you don't want to print
         #time.sleep(0.001)
             
@@ -144,15 +158,18 @@ def slip_detection_thread(name):
                 object_lost_time = time.time()
                 print("Object is lost!")
                 object_lost_flag = True
-                gripper.home()
-                success_rate = open("success_rate.txt", "a")
-                success_rate.write("Fail\n")
+                #gripper.home()
+                with open(os.path.join(trial_results_path, "success_rate.txt"), "a") as success_rate:
+                    success_rate.write("Fail\n")
             kill_loop = True
 
-        shear_delta = open("shear_delta" + "-" + str(trial_counter) + ".txt", "a")
-        shear_delta.write('{}\n'.format(delta_digit))
-        shear_delta_abs = open("shear_delta_abs" + "-" + str(trial_counter) + ".txt", "a")
-        shear_delta_abs.write('{}\n'.format(delta_digit_abs))
+        shear_delta_filename = "shear_delta" + "-" + str(trial_counter) + ".txt"
+        with open(os.path.join(sensor_reading_path, shear_delta_filename), "a") as shear_delta:
+            shear_delta.write('{}\n'.format(delta_digit))
+        
+        shear_delta_abs_filename = "shear_delta_abs" + "-" + str(trial_counter) + ".txt"
+        with open(os.path.join(sensor_reading_path, shear_delta_abs_filename), "a") as shear_delta_abs:
+            shear_delta_abs.write('{}\n'.format(delta_digit_abs))
 
         #Update the baseline
         x_baseline = present_data
@@ -195,11 +212,11 @@ def adaptive_grasping_uSkin():
         time.sleep(1)
 
         force_sensing_flag = True
-        success_rate = open("success_rate.txt", "a")
-        success_rate.write("\nTrial No.{}\n".format(trial_counter))
+        with open(os.path.join(trial_results_path, "success_rate.txt"), "a") as success_rate:
+            success_rate.write("\nTrial No.{}\n".format(trial_counter))
+            success_rate.write("Initial grasping force: {}\n".format(z_baseline))
 
         print("Initial grasping force: ", z_baseline)
-        success_rate.write("Initial grasping force: {}\n".format(z_baseline))
         print("Force sensing...")
         print(x_baseline)
         print(x_release_threshold)
@@ -246,15 +263,16 @@ async def placing(conn):
     force_sensing_flag = False
     time.sleep(1)
 
-    success_rate = open("success_rate.txt", "a")
     if(len(uSkin_data) > 1):
         z_baseline = uSkin_data[2][2]
         print("Final grasping force: {}\n".format(z_baseline))
-        success_rate.write("Final grasping force: {}\n".format(z_baseline))
+        with open(os.path.join(trial_results_path, "success_rate.txt"), "a") as success_rate:
+            success_rate.write("Final grasping force: {}\n".format(z_baseline))
 
     if not object_lost_flag:
-        success_rate.write("Success\n")
-    success_rate.write("Slip Count: {}\n".format(slip_counter))
+        with open(os.path.join(trial_results_path, "success_rate.txt"), "a") as success_rate:
+            success_rate.write("Success\n")
+            success_rate.write("Slip Count: {}\n".format(slip_counter))
 
     print("Grasping is completed, force sensing is stopped.")
     gripper.move(FULLY_OPEN, 100, 1)
@@ -308,7 +326,7 @@ async def main():
         global trial_counter
         global object_lost_flag
         global object_lost_time
-        trial_counter = 25
+        trial_counter = 0
 
         await initial_pos(conn)
         while True:
@@ -326,21 +344,22 @@ async def main():
 
             #Cycle time calculation
             end_time = time.time()
-            cycle_time = end_time - start_time
+            cycle_time_value = end_time - start_time
 
-            print("Cycle time (total): {:.2f} seconds".format(cycle_time))
-            file1 = open("cycle-time.txt", "a")
+            print("Cycle time (total): {:.2f} seconds".format(cycle_time_value))
 
-            file1.write("\nTrial No.{}\n".format(trial_counter))
-            file1.write('Total cycle time = {}\n'.format(cycle_time))
+            with open(os.path.join(trial_results_path, "cycle-time.txt"), "a") as cycle_time:
+                cycle_time.write("\nTrial No.{}\n".format(trial_counter))
+                cycle_time.write("Total cycle time = {:2f}\n".format(cycle_time_value))
 
             if object_lost_flag and object_lost_time:
                 object_lost_time_in_cycle = object_lost_time - start_time
                 print("Object lost time within cycle: {:.2f} seconds".format(object_lost_time_in_cycle))
-                file1.write("Object lost time within cycle: {:.2f} seconds\n".format(object_lost_time_in_cycle))
+                with open(os.path.join(trial_results_path, "cycle-time.txt"), "a") as cycle_time:
+                    cycle_time.write("Object lost time within cycle: {:.2f} seconds\n".format(object_lost_time_in_cycle))
                 object_lost_flag = False
             
-            file1.close()
+            cycle_time.close()
             time.sleep(10)
 
             if trial_counter == 50:
