@@ -140,7 +140,7 @@ def slip_detection_thread(name):
                     object_lost_time = time.time()
                     print("Object is lost!")
                     object_lost_flag = True
-                    gripper.home()
+                    #gripper.home()
                     success_rate = open("success_rate.txt", "a")
                     success_rate.write("Fail\n")
                 kill_loop = True
