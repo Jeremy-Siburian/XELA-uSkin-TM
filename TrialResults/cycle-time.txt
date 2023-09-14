@@ -79,3 +79,79 @@ Object lost time within cycle: 7.66 seconds
 
 Trial No.25
 Total cycle time = 16.702621
+Trial No.26
+Total cycle time = 16.622012
+
+Trial No.27
+Total cycle time = 16.466550
+
+Trial No.28
+Total cycle time = 16.293589
+Object lost time within cycle: 5.98 seconds
+
+Trial No.29
+Total cycle time = 16.427329
+
+Trial No.30
+Total cycle time = 16.420002
+Object lost time within cycle: 6.27 seconds
+
+Trial No.31
+Total cycle time = 16.533451
+
+Trial No.32
+Total cycle time = 16.466420
+
+Trial No.33
+Total cycle time = 16.480731
+
+Trial No.34
+Total cycle time = 16.463554
+
+Trial No.35
+Total cycle time = 17.006777
+
+Trial No.36
+Total cycle time = 18.167432
+
+Trial No.37
+Total cycle time = 16.406009
+
+Trial No.38
+Total cycle time = 16.265160
+
+Trial No.39
+Total cycle time = 16.275517
+
+Trial No.40
+Total cycle time = 16.617135
+
+Trial No.41
+Total cycle time = 16.434185
+
+Trial No.42
+Total cycle time = 16.311008
+
+Trial No.43
+Total cycle time = 16.587157
+
+Trial No.44
+Total cycle time = 16.588259
+
+Trial No.45
+Total cycle time = 16.250990
+
+Trial No.46
+Total cycle time = 30.527653
+
+Trial No.47
+Total cycle time = 16.342282
+
+Trial No.48
+Total cycle time = 16.696579
+
+Trial No.49
+Total cycle time = 16.386509
+
+Trial No.50
+Total cycle time = 16.245090

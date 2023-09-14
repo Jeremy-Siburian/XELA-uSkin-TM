@@ -135,3 +135,144 @@ Initial grasping force: 545.0
 Final grasping force: 10780.0
 Success
 Slip Count: 6
+Trial No.26
+Initial grasping force: 549.0
+Final grasping force: 528.2
+Success
+Slip Count: 2
+
+Trial No.27
+Initial grasping force: 513.0
+Final grasping force: 357.0
+Success
+Slip Count: 2
+
+Trial No.28
+Initial grasping force: 509.5
+Fail
+
+Trial No.29
+Initial grasping force: 558.0
+Final grasping force: 717.25
+Success
+Slip Count: 4
+
+Trial No.30
+Initial grasping force: 518.0
+Fail
+
+Trial No.31
+Initial grasping force: 529.5
+Final grasping force: 524.0
+Success
+Slip Count: 0
+
+Trial No.32
+Initial grasping force: 527.0
+Final grasping force: 5341.5
+Success
+Slip Count: 3
+
+Trial No.33
+Initial grasping force: 564.0
+Final grasping force: 479.5
+Success
+Slip Count: 5
+
+Trial No.34
+Initial grasping force: 558.5
+Final grasping force: 10490.0
+Success
+Slip Count: 8
+
+Trial No.35
+Initial grasping force: 660.75
+Final grasping force: 462.4
+Success
+Slip Count: 5
+
+Trial No.36
+Initial grasping force: 608.5
+Success
+Slip Count: 3
+
+Trial No.37
+Initial grasping force: 557.5
+Success
+Slip Count: 9
+
+Trial No.38
+Initial grasping force: 530.0
+Success
+Slip Count: 2
+
+Trial No.39
+Initial grasping force: 512.0
+Final grasping force: 335.0
+Success
+Slip Count: 12
+
+Trial No.40
+Initial grasping force: 508.0
+Final grasping force: 579.33
+Success
+Slip Count: 3
+
+Trial No.41
+Initial grasping force: 534.0
+Final grasping force: 289.67
+Success
+Slip Count: 6
+
+Trial No.42
+Initial grasping force: 518.5
+Final grasping force: 249.0
+Success
+Slip Count: 3
+
+Trial No.43
+Initial grasping force: 576.5
+Final grasping force: 697.5
+Success
+Slip Count: 0
+
+Trial No.44
+Initial grasping force: 537.0
+Final grasping force: 534.0
+Success
+Slip Count: 2
+
+Trial No.45
+Initial grasping force: 517.5
+Final grasping force: 339.0
+Success
+Slip Count: 4
+
+Trial No.46
+Initial grasping force: 516.33
+Final grasping force: 454.5
+Success
+Slip Count: 0
+
+Trial No.47
+Initial grasping force: 566.0
+Final grasping force: 667.5
+Success
+Slip Count: 2
+
+Trial No.48
+Initial grasping force: 511.0
+Final grasping force: 465.0
+Success
+Slip Count: 0
+
+Trial No.49
+Initial grasping force: 504.5
+Success
+Slip Count: 3
+
+Trial No.50
+Initial grasping force: 505.5
+Final grasping force: 612.0
+Success
+Slip Count: 7

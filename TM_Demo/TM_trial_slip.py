@@ -153,7 +153,7 @@ def slip_detection_thread(name):
                 gripper.stop()
                 print("Slip detected.")
                 slip_counter +=1
-        else:
+        elif(len(uSkin_data) < 1):
             if not object_lost_flag:
                 object_lost_time = time.time()
                 print("Object is lost!")
@@ -326,7 +326,7 @@ async def main():
         global trial_counter
         global object_lost_flag
         global object_lost_time
-        trial_counter = 0
+        trial_counter = 35
 
         await initial_pos(conn)
         while True:
