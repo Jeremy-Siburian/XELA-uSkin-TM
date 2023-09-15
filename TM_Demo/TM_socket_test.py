@@ -90,26 +90,68 @@ def thread_function(name):
 
 kill_loop = False
 global x_baseline
-global x_release_threshold
+global slip_threshold
 global speed_value
 global force_value
+
+force_sensing_flag = False
+
+X_AXIS = 0
+Y_AXIS = 1
+Z_AXIS = 2
+AXIS_SEL = X_AXIS
+
+def slip_detection_thread(name):
+    global uSkin_data
+    global kill_loop
+    global force_sensing_flag
+    #global slip_threshold
+    kill_loop = False
+    global x_baseline
+
+    #slip_threshold = 50
+
+    x_baseline = float(uSkin_data[2][AXIS_SEL])
+
+    while force_sensing_flag:
+        #print("Force sensing...")
+        time.sleep(0.1)
+
+        if(len(uSkin_data) > 1):
+            present_data = float(uSkin_data[2][AXIS_SEL])
+            delta_digit =  present_data - x_baseline
+            delta_digit_abs = abs(delta_digit)
+
+            if delta_digit_abs > slip_threshold:
+                print("Slip detected.")
+                gripper.move(FULLY_CLOSED, 100, 1)
+                time.sleep(0.1)
+                gripper.stop()
+                #slip_counter +=1
+        #Update baseline
+        x_baseline = present_data
+
+        if kill_loop:
+            break
 
 def adaptive_grasping_uSkin():
     if(len(uSkin_data) > 0):
         #close the gripper
         global rec
-        global x_baseline   
-        global x_release_threshold
+        global x_baseline
+        global z_baseline
+        global slip_threshold
         global speed_value
         global force_value
+        global force_sensing_flag
 
         print("Grasping...")
         position_value = FULLY_CLOSED
         speed_value = 5  # Set the desired speed
         force_value = 1  # Set the desired force
         gripper.move(position_value, speed_value, force_value)
-        z_threshold = 1000
-
+        z_threshold = 600
+        slip_threshold = 200
 
         while(True): #grasp an object
             #print(uSkin_data) #use time.sleep instead if you don't want to print
@@ -117,14 +159,27 @@ def adaptive_grasping_uSkin():
             if(len(uSkin_data) > 1):
                 if float(uSkin_data[2][2]) > z_threshold: #stop when z axis is over than the threshold
                     gripper.stop()
+                    x_baseline = float(uSkin_data[2][AXIS_SEL])
+                    z_baseline = float(uSkin_data[2][2])
                     time.sleep(0.1)
+
                     break                    
 
         print("Touch detected") 
         time.sleep(1)
 
-        
-        
+        force_sensing_flag = True
+        #with open(os.path.join(trial_results_path, "success_rate.txt"), "a") as success_rate:
+        #    success_rate.write("\nTrial No.{}\n".format(trial_counter))
+        #    success_rate.write("Initial grasping force: {}\n".format(z_baseline))
+
+        print("Initial grasping force: ", z_baseline)
+        print("Force sensing...")
+        print(x_baseline)
+        #print(x_release_threshold)
+        release_thread = threading.Thread(target=slip_detection_thread, args=(1,)) #A thread for accessing uSkin data from the middleware
+        release_thread.start()
+
     else:
         print("No data. Please check the middleware")  
 
@@ -166,6 +221,8 @@ start_release_flag = "$TMSCT,9,0,Listen2,*4F"
 async def try_connect():
     global pick_finish_flag
     global release_finish_flag
+    global force_sensing_flag
+
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         client_socket.settimeout(connection_timeout)
@@ -179,20 +236,18 @@ async def try_connect():
 
             if start_pick_flag in response_str:
                 print("Received grasping flag.")
-                try:
-                    adaptive_grasping_uSkin()
-                    pick_finish_flag = True
-                    return True  # Return True on successful gripper movement
-                    
-                except:
-                    print("Gripper cannot be found!")
-                    return False
+                adaptive_grasping_uSkin()
+                pick_finish_flag = True
+                return True  # Return True on successful gripper movement
 
             elif start_release_flag in response_str:
                 print("Received release flag.")
                 try:
+                    force_sensing_flag = False
+                    time.sleep(0.5)
                     gripper.move(FULLY_OPEN, 5, 1)
                     release_finish_flag = True
+                    #force_sensing_flag = False
                     return True  # Return True on successful gripper movement
                     
 
