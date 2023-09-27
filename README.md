@@ -2,15 +2,15 @@
 
 This codebase was created as part of a 6-month internship at the Plant Automation Team of Daimler Trucks Asia.
 
-Project Title:
-uSkin Tactile Sensors for Adaptive Grasping & Bin Picking Solution
+Project Title: <br />
+**uSkin Tactile Sensors for Adaptive Grasping & Bin Picking Solution**
 
 The repository is for controlling a Robotiq gripper mounted on a TM Robot using uSkin tactile sensors.
 
 ## Hardware Requirements
 
 The hardware requirements of this project are the following:
-1. 4x6 uSkin tactile sensors from XELA Robotics
+1. 4x6 uSkin tactile sensors from [XELA Robotics](https://www.xelarobotics.com/)
 2. 2F-85 Robotiq Gripper
 3. TM5-900 Collaborative Robot
 
