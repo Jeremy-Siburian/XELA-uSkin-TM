@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+#Import all necessary libraries
 
 from multiprocessing.connection import wait
 import os, sys
@@ -19,6 +20,7 @@ import threading
 from GripperControl.robotiq_library import *
 import socket
 
+#Import techmanpy driver for robot control
 from RobotControl import techmanpy
 import asyncio
 
@@ -70,7 +72,9 @@ def keyboard_input(name): # a thread for receiving keyboard input
             break  
 
 keyboard_thread = threading.Thread(target= keyboard_input , args=(1,))
-keyboard_thread.start()   
+keyboard_thread.start()
+
+#Core thread for receiving sensor data from middleware
 
 def thread_function(name):
     global uSkin_data
@@ -88,51 +92,57 @@ def thread_function(name):
         if kill_threads:
             break
 
+#Global variable declarations
+
 kill_loop = False
-global x_baseline
-global slip_threshold
 global speed_value
 global force_value
 
+#Slip related variables
+global x_baseline #Update the shear change baseline
+global slip_threshold 
 force_sensing_flag = False
 
+#Sensor force data (x,y,z force)
 X_AXIS = 0
 Y_AXIS = 1
 Z_AXIS = 2
 AXIS_SEL = X_AXIS
 
+#Main thread for slip detection
+
 def slip_detection_thread(name):
     global uSkin_data
     global kill_loop
     global force_sensing_flag
-    #global slip_threshold
     kill_loop = False
     global x_baseline
 
-    #slip_threshold = 50
-
     x_baseline = float(uSkin_data[2][AXIS_SEL])
 
-    while force_sensing_flag:
+    while force_sensing_flag: #Only detecting slip while object is being grasped
         #print("Force sensing...")
         time.sleep(0.1)
 
         if(len(uSkin_data) > 1):
             present_data = float(uSkin_data[2][AXIS_SEL])
-            delta_digit =  present_data - x_baseline
-            delta_digit_abs = abs(delta_digit)
+            delta_digit =  present_data - x_baseline    #Change in shear force
+            delta_digit_abs = abs(delta_digit) 
 
-            if delta_digit_abs > slip_threshold:
+            if delta_digit_abs > slip_threshold: #Increase force if slip is detected
                 print("Slip detected.")
                 gripper.move(FULLY_CLOSED, 100, 1)
                 time.sleep(0.1)
                 gripper.stop()
                 #slip_counter +=1
-        #Update baseline
+
+        #Update new shear baseline
         x_baseline = present_data
 
         if kill_loop:
             break
+
+#Main function for set force grasping with uSkin sensors
 
 def adaptive_grasping_uSkin():
     if(len(uSkin_data) > 0):
@@ -150,8 +160,8 @@ def adaptive_grasping_uSkin():
         speed_value = 5  # Set the desired speed
         force_value = 1  # Set the desired force
         gripper.move(position_value, speed_value, force_value)
-        z_threshold = 600
-        slip_threshold = 200
+        z_threshold = 600   #Change grasping force here
+        slip_threshold = 50  #Change slip threshold here
 
         while(True): #grasp an object
             #print(uSkin_data) #use time.sleep instead if you don't want to print
@@ -168,7 +178,7 @@ def adaptive_grasping_uSkin():
         print("Touch detected") 
         time.sleep(1)
 
-        force_sensing_flag = True
+        force_sensing_flag = True   #Start slip detection
         #with open(os.path.join(trial_results_path, "success_rate.txt"), "a") as success_rate:
         #    success_rate.write("\nTrial No.{}\n".format(trial_counter))
         #    success_rate.write("Initial grasping force: {}\n".format(z_baseline))
@@ -176,8 +186,7 @@ def adaptive_grasping_uSkin():
         print("Initial grasping force: ", z_baseline)
         print("Force sensing...")
         print(x_baseline)
-        #print(x_release_threshold)
-        release_thread = threading.Thread(target=slip_detection_thread, args=(1,)) #A thread for accessing uSkin data from the middleware
+        release_thread = threading.Thread(target=slip_detection_thread, args=(1,)) #A thread for continuously checking slip
         release_thread.start()
 
     else:
@@ -207,6 +216,9 @@ time.sleep(2)
 
 #################################################################
 
+
+#MAIN ROBOT MOVEMENT THREAD STARTS HERE
+
 robot_ip = '192.168.5.20'
 robot_port = 5890
 connection_timeout = 5  # Timeout value in seconds
@@ -214,6 +226,7 @@ retry_delay = 0  # Delay between connection attempts in seconds
 pick_finish_flag = False
 release_finish_flag = False
 
+#Flag message from TMflow
 start_pick_flag = "$TMSCT,9,0,Listen1,*4C"
 start_release_flag = "$TMSCT,9,0,Listen2,*4F"
 
@@ -244,8 +257,9 @@ async def try_connect():
                 print("Received release flag.")
                 try:
                     force_sensing_flag = False
-                    time.sleep(0.5)
+                    time.sleep(1)
                     gripper.move(FULLY_OPEN, 5, 1)
+                    time.sleep(0.5)
                     release_finish_flag = True
                     #force_sensing_flag = False
                     return True  # Return True on successful gripper movement

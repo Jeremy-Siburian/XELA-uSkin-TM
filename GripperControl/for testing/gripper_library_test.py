@@ -41,7 +41,7 @@ while(True):
    #print(data_raw)
    #data = binascii.hexlify(data_raw)
    #print ("Response 3 ", data)
-   time.sleep(2)
+   time.sleep(1)
    print ("Open gripper")
    gripper.home()
    #data_raw = ser.readline()
