@@ -3,16 +3,21 @@ import sys
 import time
 import numpy as np
 import os
+
 currentdir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(currentdir)
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
-from Utils.xelamiddleware import *
-from RobotControl.ur_demo.robotiq_library import *
-from BasicFunction.xela_tactile_map import *
-from BasicFunction.xela_tactile_plotter import *
-from Utils.tactile_gui import *
-from Utils.xela_utils import *
+
+from SensorUtils.xelamiddleware import *
+
+from GripperControl.UR_robotiq_library import *
+
+from SensorUtils.xela_tactile_map import *
+from SensorUtils.xela_tactile_plotter import *
+from SensorUtils.tactile_gui import *
+from SensorUtils.xela_utils import *
+
 import socket
 from threading import Thread, Lock
 # from my_robot_common.import_me_if_you_can import say_it_works
@@ -21,7 +26,7 @@ from sklearn.cluster import DBSCAN
 import collections
 #from getkey import getkey
 
-import techmanpy
+from RobotControl import techmanpy
 import asyncio
 
 import os
@@ -530,7 +535,7 @@ class SensorClusteringModel(object):
                     #     break
                     #print("position_value",position_value)
                     #position_value +=1
-                    gripper.move(FULLY_CLOSED_8BIT, speed_value, force_value)
+                    gripper.move(FULLY_CLOSED, speed_value, force_value)
                     # print("self.tactile_data",self.tactile_data)
                     if(len(self.tactile_data) > 0):
                         

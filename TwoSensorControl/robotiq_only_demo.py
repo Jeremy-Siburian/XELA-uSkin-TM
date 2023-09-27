@@ -15,9 +15,9 @@ from GripperControl.UR_robotiq_library import *
 
 from SensorUtils.xela_tactile_map import *
 from SensorUtils.xela_tactile_plotter import *
-
 from SensorUtils.tactile_gui import *
 from SensorUtils.xela_utils import *
+
 import socket
 from threading import Thread, Lock
 # from my_robot_common.import_me_if_you_can import say_it_works
