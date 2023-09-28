@@ -155,3 +155,18 @@ Total cycle time = 16.386509
 
 Trial No.50
 Total cycle time = 16.245090
+
+Trial No.36
+Total cycle time = 33.915072
+
+Trial No.37
+Total cycle time = 30.446898
+
+Trial No.38
+Total cycle time = 29.498880
+
+Trial No.39
+Total cycle time = 25.806868
+
+Trial No.40
+Total cycle time = 16.533142

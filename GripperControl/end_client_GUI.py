@@ -288,7 +288,8 @@ def grip_uskin_callback():
         gripper.move(position_value, speed_value, force_value)
         
         while(True):
-            print(uSkin_data)
+            #print(uSkin_data)
+            time.sleep(0.1)
             if(len(uSkin_data) > 0):
                 if int(uSkin_data[0]) > 0: #stop as soon as a touch is detected
                     gripper.stop()

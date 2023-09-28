@@ -194,7 +194,7 @@ def adaptive_grasping_uSkin():
         force_value = 1  # Set the desired force
         gripper.move(position_value, speed_value, force_value)
         z_threshold = 500
-        x_release_threshold = 200
+        x_release_threshold = 50
 
         while(True): #grasp an object
             #print(uSkin_data) #use time.sleep instead if you don't want to print

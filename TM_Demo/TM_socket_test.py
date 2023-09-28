@@ -160,7 +160,7 @@ def adaptive_grasping_uSkin():
         speed_value = 5  # Set the desired speed
         force_value = 1  # Set the desired force
         gripper.move(position_value, speed_value, force_value)
-        z_threshold = 600   #Change grasping force here
+        z_threshold = 800   #Change grasping force here
         slip_threshold = 50  #Change slip threshold here
 
         while(True): #grasp an object
