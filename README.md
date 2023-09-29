@@ -1,6 +1,6 @@
 # uSkin Tactile Sensors on Robotiq Gripper & Omron TM Robot
 
-Project Owner: Jeremy Siburian <br>
+Project Owner: [Jeremy Siburian](https://www.linkedin.com/in/jeremy-siburian/) <br>
 Last Updated: **September 28, 2023**
 
 ## Table of Contents
@@ -69,6 +69,10 @@ Explanation of each folder in the repository:
 To combine sensor feedback, gripper control, and robot movement together, two main control architectures are used as a prototype:
 1. **Python-Only Control** (TMflow in Listen Node)
 2. **Python + TMflow** (Robot movement is controlled in TMflow)
+
+Prerequisites:
+1. In the TMflow software, a Listen Node must be active.
+2. In the code editor, "clustering_middleware.py"
 
 ### Python-Only Control (TMflow in Listen Node)
 
